@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Animation de la Pertinence</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 40px;
+      text-align: center;
+    }
+    h2 {
+      margin-bottom: 30px;
+    }
+    .formulaire {
+      margin-bottom: 40px;
+    }
+    input {
+      width: 60px;
+      padding: 5px;
+      margin: 0 10px;
+    }
+    .bar-container {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      align-items: flex-end;
+      height: 300px;
+      position: relative;
+    }
+    .bar {
+      width: 60px;
+      border-radius: 6px 6px 0 0;
+      position: relative;
+      height: 0;
+    }
+    .bar-labels {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 10px;
+    }
+    .bar-labels div {
+      width: 60px;
+      font-weight: bold;
+    }
+    .bar-value {
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: bold;
+    }
+    #bar-elevee {
+      background-color: #007bff;
+    }
+    #bar-moyenne {
+      background-color: #f28e2c;
+    }
+    #bar-faible {
+      background-color: #e15759;
+    }
+  </style>
+</head>
+<body>
+  <h2>Tester une visualisation de la pertinance des articles animée avec Anime.js</h2>
+
+  <div class="formulaire">
+    <label>Élevée <input type="number" id="elevee" value="480"></label>
+    <label>Moyenne <input type="number" id="moyenne" value="14"></label>
+    <label>Faible <input type="number" id="faible" value="24"></label>
+    <button onclick="animerBarres()">Lancer l'animation</button>
+  </div>
+
+  <div class="bar-container">
+    <div class="bar" id="bar-elevee"><div class="bar-value" id="label-elevee"></div></div>
+    <div class="bar" id="bar-moyenne"><div class="bar-value" id="label-moyenne"></div></div>
+    <div class="bar" id="bar-faible"><div class="bar-value" id="label-faible"></div></div>
+  </div>
+  <div class="bar-labels">
+    <div>Élevée</div>
+    <div>Moyenne</div>
+    <div>Faible</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script>
+    function animerBarres() {
+      const elevee = parseInt(document.getElementById("elevee").value);
+      const moyenne = parseInt(document.getElementById("moyenne").value);
+      const faible = parseInt(document.getElementById("faible").value);
+
+      const valeurs = { elevee, moyenne, faible };
+      const max = Math.max(...Object.values(valeurs));
+      const scale = 250 / max;
+
+      anime({
+        targets: '#bar-elevee',
+        height: elevee * scale,
+        duration: 1500,
+        easing: 'easeOutBounce',
+        update: function(anim) {
+          document.getElementById("label-elevee").textContent = elevee;
+        }
+      });
+
+      anime({
+        targets: '#bar-moyenne',
+        height: moyenne * scale,
+        duration: 1500,
+        delay: 200,
+        easing: 'easeOutBounce',
+        update: function(anim) {
+          document.getElementById("label-moyenne").textContent = moyenne;
+        }
+      });
+
+      anime({
+        targets: '#bar-faible',
+        height: faible * scale,
+        duration: 1500,
+        delay: 400,
+        easing: 'easeOutBounce',
+        update: function(anim) {
+          document.getElementById("label-faible").textContent = faible;
+        }
+      });
+    }
+  </script>
+</body>
+</html>
